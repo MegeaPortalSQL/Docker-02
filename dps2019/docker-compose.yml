@@ -1,0 +1,66 @@
+version: '3.3'
+services:
+  db_1:
+    container_name: PortalSQLNode1
+    hostname:
+        PortalSQLNode1
+    build:
+      context: ./db/
+      dockerfile: dockerfiledb1
+    ports:
+      - "9001:1433"
+    environment:
+      SA_PASSWORD: "PortalSQL01Demo#"
+      ACCEPT_EULA: "Y"
+    healthcheck:
+      test: sqlcmd -S db1.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -Q "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'PortalSQL01Demo#'"
+    volumes:
+      - cert-volume:/var/opt/mssql/backup/certs
+    networks:
+      mynetwork:
+        aliases:
+          - db1.internal.portalsql.es
+          - PortalSQLNode1.portalsql.es
+  db_2:
+    container_name: PortalSQLNode2
+    hostname:
+        PortalSQLNode2
+    build:
+      context: ./db/
+      dockerfile: dockerfiledb2
+    ports:
+      - "9002:1433"
+    environment:
+      SA_PASSWORD: "PortalSQL01Demo#"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - cert-volume:/var/opt/mssql/backup/certs
+    networks:
+      mynetwork:
+        aliases:
+          - db2.internal.portalsql.es
+          - PortalSQLNode2.portalsql.es
+  db_3:
+    container_name: PortalSQLNode3
+    hostname:
+        PortalSQLNode3
+    build:
+      context: ./db/
+      dockerfile: dockerfiledb3
+    ports:
+      - "9003:1433"
+    environment:
+      SA_PASSWORD: "PortalSQL01Demo#"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - cert-volume:/var/opt/mssql/backup/certs
+    networks:
+       mynetwork:
+        aliases:
+          - db3.internal.portalsql.es 
+          - PortalSQLNode3.portalsql.es
+networks:
+  mynetwork:
+    driver: bridge
+volumes:
+ cert-volume:
