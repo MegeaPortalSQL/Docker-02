@@ -20,3 +20,6 @@ WORKDIR /var/opt/mssql/backup
 
 RUN /opt/mssql/bin/mssql-conf set hadr.hadrenabled  1
 
+# This entrypoint start sql server, restores data and waits infinitely
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["sleep infinity"]
