@@ -12,8 +12,6 @@ services:
     environment:
       SA_PASSWORD: "PortalSQL01Demo#"
       ACCEPT_EULA: "Y"
-    healthcheck:
-      test: sqlcmd -S db1.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -Q "CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'PortalSQL01Demo#'"
     volumes:
       - cert-volume:/var/opt/mssql/backup/certs
     networks:
