@@ -20,6 +20,18 @@ WORKDIR /var/opt/mssql/backup
 
 RUN /opt/mssql/bin/mssql-conf set hadr.hadrenabled  1
 
+
+RUN curl -L -o 01_PrincipalServer.sql https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/01_PrincipalServer.sql
+RUN curl -L -o 02_SecondaryServer.sql https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/02_SecondaryServer.sql
+RUN curl -L -o 03_CreateAvailabilityGroup.sql https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/03_CreateAvailabilityGroup.sql
+RUN curl -L -o 04_JoinAvailabilityGroup.sql https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/04_JoinAvailabilityGroup.sql
+RUN curl -L -o RestoreAdventureWorksDWandPutitAvailable.sql https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/RestoreAdventureWorksDWandPutitAvailable.sql
+RUN curl -L -o CreateAlwaysOn.sh https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/CreateAlwaysOn.sh
+RUN curl -L -o entrypoint.sh https://raw.githubusercontent.com/MegeaPortalSQL/Docker-02/master/dps2019/Scripts/entrypoint.sh
+RUN chmod +x CreateAlwaysOn.sh
+RUN chmod +x entrypoint.sh
+
+
 # This entrypoint start sql server, restores data and waits infinitely
-ENTRYPOINT ["./certs/entrypoint.sh"]
+ENTRYPOINT ["/var/opt/mssql/backup/entrypoint.sh"]
 CMD ["sleep infinity"]
