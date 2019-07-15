@@ -7,8 +7,14 @@ i=0
 while [[ $STATUS -ne 0 ]] && [[ $i -lt 30 ]]; do
 	i=$i+1
 	sqlcmd -S db3.internal.portalsql.es  -U sa -P 'PortalSQL01Demo#' -Q "select 1" >> /dev/null
-	sleep 1
+	
 	STATUS=$?
+	sqlcmd -S db2.internal.portalsql.es  -U sa -P 'PortalSQL01Demo#' -Q "select 1" >> /dev/null
+	STATUS=STATUS+$?
+	
+	sqlcmd -S db1.internal.portalsql.es  -U sa -P 'PortalSQL01Demo#' -Q "select 1" >> /dev/null
+	STATUS=STATUS+$?
+	sleep 1s
 done
 
 if [ $STATUS -ne 0 ]; then 
@@ -26,5 +32,4 @@ sqlcmd -S db1.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 03_CreateAvai
 sqlcmd -S db2.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 04_JoinAvailabilityGroup.sql
 sqlcmd -S db3.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 04_JoinAvailabilityGroup.sql
 sqlcmd -S db1.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i RestoreAdventureWorksDWandPutitAvailable.sql
-
 
