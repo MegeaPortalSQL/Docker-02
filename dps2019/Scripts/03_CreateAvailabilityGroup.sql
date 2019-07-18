@@ -7,27 +7,27 @@ IF NOT EXISTS
 )
     BEGIN
 	CREATE AVAILABILITY GROUP [ag1]
-     WITH (DB_FAILOVER = OFF, CLUSTER_TYPE = EXTERNAL)
+     WITH (CLUSTER_TYPE = NONE)
      FOR REPLICA ON
          N'PortalSQLNode1' 
           WITH (
              ENDPOINT_URL = N'tcp://db1.internal.portalsql.es:5022',
              AVAILABILITY_MODE = SYNCHRONOUS_COMMIT,
-             FAILOVER_MODE = EXTERNAL,
+             FAILOVER_MODE = MANUAL,
              SEEDING_MODE = AUTOMATIC
              ),
          N'PortalSQLNode2' 
           WITH ( 
              ENDPOINT_URL = N'tcp://db2.internal.portalsql.es:5022', 
              AVAILABILITY_MODE = SYNCHRONOUS_COMMIT,
-             FAILOVER_MODE = EXTERNAL,
+             FAILOVER_MODE = MANUAL,
              SEEDING_MODE = AUTOMATIC
              ),
          N'PortalSQLNode3'
          WITH( 
             ENDPOINT_URL = N'tcp://db3.internal.portalsql.es:5022', 
             AVAILABILITY_MODE = SYNCHRONOUS_COMMIT,
-            FAILOVER_MODE = EXTERNAL,
+            FAILOVER_MODE = MANUAL,
             SEEDING_MODE = AUTOMATIC
             );
 
