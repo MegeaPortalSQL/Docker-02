@@ -24,7 +24,10 @@ fi
 
 echo "======= MSSQL SERVER STARTED ========" 
 
-
+if [ -f /var/opt/mssql/backup/certs/dbm_certificate.cer ]
+then
+echo " NOTHING TO DO "
+else
 sqlcmd -S db1.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 01_PrincipalServer.sql
 sqlcmd -S db2.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 02_SecondaryServer.sql
 sqlcmd -S db3.internal.portalsql.es -U SA -P 'PortalSQL01Demo#' -i 02_SecondaryServer.sql
